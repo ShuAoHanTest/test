@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/afquery.js" ></script>
+</head>
+
+<body>
+	<div class="container">
+		<div style="background-color: #F8F8FF;padding: 4px;">
+			<a href="testTwo.html">首页</a> >> 列表
+		</div>
+		
+		<div class="row">
+			<button onclick="M.startRun()">测试</button>
+		</div>
+		
+		<div class="row student-list">
+			<table style="width: 100%;">
+				<thead>
+					<tr>
+						<th>学号</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>手机号</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
+<script>
+	
+	var M = {};
+	
+//	上节的内容,和本节无关
+//	M.test = function()
+//	{
+//		var req={};
+//		req.id = -20190001;
+//		
+//		//带4个参数:
+//		//url:接收Ajax请求的服务器的名字
+//		//req：前端的数据
+//		//okHandler：成功的处理
+//		//errHandler：出错的处理
+//		Af.rest('Test',req,function(resp){
+//			cosole.log(resp);
+//		}),
+//		function(){
+//			alert(reason);
+//		},
+//	};
+	
+	/*列表查询*/
+	M.listStudent = function()
+	{
+		var req={};
+		//因为目的是从后台的服务器中获取学生的信息，不需要前端的请求，所以req为空值，但该参数必不可少，必须得传
+		//resp是后台的应答
+		Af.rest("ListStudent",req,function(resp){
+			console.log(resp);
+			console.log(typeof(resp));
+			//从后台获取到数据库中的人员信息后
+			//调用某对象的方法(总之能达到这个功能，不用管是谁调用的)
+			M.addStudentList(resp);
+			},
+		);
+	};
+	
+	/*添加学生记录到表格中*/
+	M.addStudentList = function(resp)
+	{
+		var target = $('.student-list tbody');
+		target.html(""); //清空tbody的内容
+		
+		for(var i = 0;i<resp.length;i++)
+		{
+			var it = resp[i];
+			var str = "<tr>"+
+			"<td>"+it.id + "</td>"+
+			"<td>"+it.name + "</td>"+
+			"<td>"+(it.sex?'男':'女') + "</td>"+
+			"<td>"+it.cellPhone + "</td>"+
+			"</tr>";
+			target.append(str);
+		}
+	};
+	
+	M.startRun = function()
+	{
+		M.listStudent();
+	};
+	
+</script>
+
+</html>
