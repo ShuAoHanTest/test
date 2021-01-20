@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/afquery.js" ></script>
+<style>
+	.add
+	{
+		padding: 3px;
+	}
+	.center
+	{
+		margin-left: 300px;
+	}
+	input,select
+	{
+		margin: 5px;
+		padding: 5px;
+	}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div style="background-color: #F8F8FF;padding: 4px;">
+			<a href="testTwo.html">首页</a> >> 列表
+		</div>
+		
+		<div class="row">
+			<button class="add">保存</button>
+		</div>
+		
+		<div class="center">
+			学号：<input type="text" class="one" /><br>
+			姓名：<input type="text" class="two"/><br>
+			性别：<select>
+				<option value="male">男</option>
+				<option value="female">女</option>
+			</select><br>
+			手机：<input type="text" class="four" /><br>
+		</div>
+	</div>
+</body>
+<script>
+	var information = {};
+	$(".add").click(function(){
+		information.id = $(".one").val().trim();
+		information.name = $(".two").val().trim();
+		information.sex = $("select").val();
+		console.log(information.sex);
+		information.cellPhone = $(".four").val().trim();
+		
+		information.id = Number(information.id);
+		information.sex = Boolean(information.sex == 'male');
+		
+		Af.rest('AddStudent',information,function(resp){
+			alert("成功");
+			location.href = 'testThree.html';
+		});
+		
+	});
+	
+	
+</script>
+</html>

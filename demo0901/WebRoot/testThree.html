@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/common.css" />
+<script type="text/javascript" src="js/jquery.min.js" ></script>
+<script type="text/javascript" src="js/afquery.js" ></script>
+</head>
+<body>
+	<div class="container">
+		<div style="background-color: #F8F8FF;padding: 4px;">
+			<a href="testThree.html">首页</a> >> 列表
+		</div>
+		
+		<div class="row">
+			<button class="list" onclick="M.show()">显示学生</button>
+			<a href='add.html'> 添加学生 </a>
+		</div>
+		
+		<div class="row student-list">
+			<table style="width: 100%;">
+				<thead>
+					<tr>
+						<th>学号</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>手机号</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+<script>
+	
+	var M = {};
+	
+	M.show = function()
+	{
+		var req = {};
+		Af.rest("ListStudent",req,function(resp){
+			M.addStudentList(resp);
+		});
+	};
+	
+	M.addStudentList = function(resp)
+	{
+		var target = $("tbody");
+		target.html("");
+		
+		for(var i = 0;i<resp.length;i++)
+		{
+			var message = resp[i];
+			var s = (message.sex == true ?'男':'女');
+			var str = "<tr>" + 
+					  "<td>"+ message.id + "</td>" + 
+					  "<td>"+ message.name + "</td>" + 
+					  "<td>"+ s + "</td>" + 
+					  "<td>"+ message.cellPhone + "</td>" + 
+					  "</tr>";
+			target.append(str);
+		}
+	};
+	
+	//M.listStudent();
+</script>
+</html>
